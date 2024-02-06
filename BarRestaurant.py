@@ -122,13 +122,13 @@ class MonRestaurant:
       
           #Création de la zone produit
       zone_produit = LabelFrame(zone, text='PRODUIT', font=('Calibri light',15, 'italic', 'bold', 'underline'), bg='white')
-      zone_produit.place(x=320, y=10, width=540, height=120)
+      zone_produit.place(x=320, y=10, width=600, height=120)
       
               #Catégorie de produit
       self.categorie_produit = Label(zone_produit, text = 'Catégorie :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.categorie_produit.grid(row = 0, column = 0, sticky ='w', ipady = 1)
       
-      self.text_categorie_produit = ttk.Combobox(zone_produit, values = self.list_categorie, font=('Calibri light',10, 'italic'))
+      self.text_categorie_produit = ttk.Combobox(zone_produit, values = self.list_categorie, font=('Calibri light',11, 'italic'))
       self.text_categorie_produit.grid(row = 0, column = 1, sticky = 'w', ipady = 1)
       self.text_categorie_produit.bind("<<ComboboxSelected>>", self.affectSousCat)
 
@@ -139,7 +139,7 @@ class MonRestaurant:
       self.sous_categorie_produit = Label(zone_produit, text = 'Sous-catégorie :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.sous_categorie_produit.grid(row = 1, column = 0, sticky ='w', ipady = 1)
       
-      self.text_sous_categorie_produit = ttk.Combobox(zone_produit, textvariable = self.sous_categorie, font=('Calibri light',10, 'italic'))
+      self.text_sous_categorie_produit = ttk.Combobox(zone_produit, textvariable = self.sous_categorie, font=('Calibri light',11, 'italic'))
       self.text_sous_categorie_produit.grid(row = 1, column = 1, sticky = 'w', ipady = 1)
       self.text_sous_categorie_produit.bind('<<ComboboxSelected>>', self.affectNomProduit)
       
@@ -147,7 +147,7 @@ class MonRestaurant:
       self.nom_produit = Label(zone_produit, text = 'Nom produit :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.nom_produit.grid(row = 2, column = 0, sticky ='w', ipady = 1)
       
-      self.text_nom_produit = ttk.Combobox(zone_produit, textvariable = self.produit, font=('Calibri light',10, 'italic'))
+      self.text_nom_produit = ttk.Combobox(zone_produit, textvariable = self.produit, font=('Calibri light',11, 'italic'))
       self.text_nom_produit.grid(row = 2, column = 1, sticky = 'w', ipady = 1)
       self.text_nom_produit.bind('<<ComboboxSelected>>', self.affectPrixProduit)
       
@@ -155,23 +155,34 @@ class MonRestaurant:
       self.quantite_produit = Label(zone_produit, text = 'Quantité :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.quantite_produit.grid(row = 0, column = 2 , sticky ='w', ipady = 1, pady = 1)
       
-      self.text_qte_produit = ttk.Entry(zone_produit, textvariable = self.qte_produit, font=('Calibri light',10, 'italic'))
+      self.text_qte_produit = ttk.Entry(zone_produit, textvariable = self.qte_produit, font=('Calibri light',11, 'italic'))
       self.text_qte_produit.grid(row = 0, column = 3, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      
       
               #Prix_unit produit
       self.prix_unit_produit = Label(zone_produit, text = 'Prix/u :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.prix_unit_produit.grid(row = 1, column = 2 , sticky ='w', ipady = 1, pady = 1)
       
-      self.text_prix_unit_produit = ttk.Combobox(zone_produit, textvariable = self.prix_unit, font=('Calibri light',10, 'italic'), state = 'readonly')
+      self.text_prix_unit_produit = ttk.Combobox(zone_produit, textvariable = self.prix_unit, font=('Calibri light',11, 'italic'), state = 'readonly')
       self.text_prix_unit_produit.grid(row = 1, column = 3, sticky = 'w', ipady = 1, pady = 1)
-      #self.text_prix_unit_produit.bind('<<ComboboxSelected>>', self.affecttotalPrix)
+      
       
              #prix total produit
       self.prix_total_produit = Label(zone_produit, text = 'Total :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.prix_total_produit.grid(row = 2, column = 2 , sticky ='w', ipady = 1, pady = 1)
       
-      self.text_prix_total_produit = ttk.Entry(zone_produit, text = self.prix_total, font=('Calibri light',10, 'italic'), state = 'readonly')
+      self.text_prix_total_produit = ttk.Entry(zone_produit, textvariable=self.prix_total, font=('Calibri light',11, 'italic'), state = 'readonly')
       self.text_prix_total_produit.grid(row = 2, column = 3, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      
+      a=self.prix_unit.get()
+      b=self.qte_produit.get()
+      print(a,' ',b)
+     
+      
+      
+      #self.text_prix_total_produit.insert(0,str(self.prix_unit.get()))
+      #self.prix_total.set(1000)
+      
       
       #image
       self.img_bar = ImageTk.PhotoImage(Image.open('C:/Users/ok/PROJETS PYTHON/supermarket/plan-bar.jpg'))
@@ -181,7 +192,7 @@ class MonRestaurant:
 
       #Création de la sous zone de recherche de facture et ses widgets
       zone_recherche = LabelFrame(zone, text='RECHERCHE FACTURE', font=('Calibri light',15, 'italic', 'bold', 'underline'), bg='white')
-      zone_recherche.place(x=880, y=10, width=400, height=120)
+      zone_recherche.place(x=930, y=10, width=400, height=120)
           
       self.recherche_fac = Label(zone_recherche, text = 'N° Facture :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.recherche_fac.grid(row = 0, column = 0 , sticky ='w', ipady = 1, pady = 1)
@@ -213,28 +224,50 @@ class MonRestaurant:
       self.lbl_total_brut.grid(row = 0, column = 0 , sticky ='w', ipady = 1, pady = 1)
       
       self.text_total_brut = ttk.Entry(zone_fonctions, textvariable = self.total_brut, font=('Calibri light',10, 'italic'), state='readonly')
-      self.text_total_brut.grid(row = 0, column = 1, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      self.text_total_brut.grid(row = 0, column = 1, sticky = 'w', padx = 10, pady = 1, ipadx = 8, ipady = 1)
       
       self.lbl_taxe = Label(zone_fonctions, text = 'Taxe :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.lbl_taxe.grid(row = 1, column = 0 , sticky ='w', ipady = 1, pady = 1)
       
       self.text_taxe = ttk.Entry(zone_fonctions, textvariable = self.taxe, font=('Calibri light',10, 'italic'), state='readonly')
-      self.text_taxe.grid(row = 1, column = 1, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      self.text_taxe.grid(row = 1, column = 1, sticky = 'w', padx = 10, pady = 1, ipadx = 8, ipady = 1)
       
       self.lbl_total_net = Label(zone_fonctions, text = 'Total net :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.lbl_total_net.grid(row = 2, column = 0 , sticky ='w', ipady = 1, pady = 1)
       
       self.text_total_net = ttk.Entry(zone_fonctions, textvariable = self.total_net, font=('Calibri light',10, 'italic'), state='readonly')
-      self.text_total_net.grid(row = 2, column = 1, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      self.text_total_net.grid(row = 2, column = 1, sticky = 'w', padx = 10, pady = 1, ipadx = 8, ipady = 1)
       
-          #Bouton de recherche
-      #self.button_rech = Button(zone_recherche, text = 'Recherche', height=1, font=('Calibri light',10, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
-      #self.button_rech.grid(row=0, column=2, sticky = '', ipady = 1, pady = 1, ipadx = 8)
+          #Boutons de fonctions
+      self.button_add = Button(zone_fonctions, text = 'Ajouter à la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_add.grid(row=0, column=2, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
+      self.button_generate = Button(zone_fonctions, text = 'Générer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_generate.grid(row=2, column=2, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
 
+      self.button_save = Button(zone_fonctions, text = 'Enregistrer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_save.grid(row=0, column=3, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
+      
+      self.button_reinit = Button(zone_fonctions, text = 'Réinitialiser la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_reinit.grid(row=2, column=3, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
+      
+      self.button_print = Button(zone_fonctions, text = 'Imprimer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_print.grid(row=0, column=4, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
+      
+      self.button_quit = Button(zone_fonctions, text = 'Quitter', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_quit.grid(row=2, column=4, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
+      
+      self.liste = []
+      
+     
+      #self.prix_total.set(self.prix_unit.get() * self.qte_produit.get())
 
-
-
+# Fontions de la zone fonctions
+    def add(self):
+        self.prix_total = self.prix_unit.get() * self.qte_produit.get()
+        self.liste.append(self.prix_total)
+        
+      
 
 #Fonction d'affection des sous-catégorie
     def affectSousCat(self, event = ''):
@@ -368,7 +401,10 @@ class MonRestaurant:
             self.text_prix_unit_produit.current(0)
             self.qte_produit.set(1)
 
-
+    def affecttotalPrix(self, event):
+        self.total = self.prix_unit.get() * self.qte_produit.get()
+        self.prix_total.set(self.total)
+        print(self.total)
 
 
 
