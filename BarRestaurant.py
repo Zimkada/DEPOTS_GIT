@@ -38,7 +38,7 @@ class MonRestaurant:
       affich_heure()
 
       #Déclaration des variables
-      self.contact_client = IntVar()
+      self.contact_client = StringVar()
       self.nom_client = StringVar()
       self.email_client = StringVar()
       self.qte_produit = IntVar()
@@ -50,7 +50,11 @@ class MonRestaurant:
       self.taxe = IntVar()
       self.total_net = IntVar()
       
-      self.rech_fac = IntVar() #A compléter fonction random
+      self.rech_fac = StringVar()
+      
+      self.n_facture = StringVar()
+      num = random.randint(1000,9999)
+      self.n_facture.set(num)
       
   
       #Définition des listes de sous_catégories, produits et prix Catégorie
@@ -102,21 +106,21 @@ class MonRestaurant:
       zone_client.place(x=10, y=10, width=300, height=120)
       
               #Contact_lient
-      self.contact_client = Label(zone_client, text = 'Contact(s) :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
-      self.contact_client.grid(row=0, column=0, ipady = 1, sticky = 'w')
+      self.lbl_contact_client = Label(zone_client, text = 'Contact(s) :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
+      self.lbl_contact_client.grid(row=0, column=0, ipady = 1, sticky = 'w')
       self.text_contact_client = ttk.Entry(zone_client, text = self.contact_client, font = ('Calibri light',10, 'italic', 'bold'))
       self.text_contact_client.grid(row = 0, column = 1, ipady = 1, pady = 1)
       
               #nom du client
-      self.nom_client = Label(zone_client, text = 'Nom du client :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
-      self.nom_client.grid(row = 1, column = 0, ipady = 1, sticky = 'w')
+      self.lbl_nom_client = Label(zone_client, text = 'Nom du client :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
+      self.lbl_nom_client.grid(row = 1, column = 0, ipady = 1, sticky = 'w')
       self.text_nom_client = ttk.Entry(zone_client, text=self.nom_client, font=('Calibri light',10, 'italic', 'bold'))
       self.text_nom_client.grid(row = 1, column = 1, ipady = 1, pady = 1)
       
       
               #Email du client
-      self.email_client = Label(zone_client, text = 'Email :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
-      self.email_client.grid(row = 2, column = 0, ipady = 1, sticky = 'w')
+      self.lbl_email_client = Label(zone_client, text = 'Email :', font=('Calibri light',12, 'italic', 'bold'), bg='white')
+      self.lbl_email_client.grid(row = 2, column = 0, ipady = 1, sticky = 'w')
       self.text_email_client = ttk.Entry(zone_client, text=self.email_client, font=('Calibri light',10, 'italic', 'bold'))
       self.text_email_client.grid(row = 2, column = 1, ipady = 1, pady = 1)
       
@@ -171,16 +175,14 @@ class MonRestaurant:
       self.prix_total_produit = Label(zone_produit, text = 'Total :', font=('Calibri light',11, 'italic', 'bold'), bg='white')
       self.prix_total_produit.grid(row = 2, column = 2 , sticky ='w', ipady = 1, pady = 1)
       
-      self.text_prix_total_produit = ttk.Entry(zone_produit, textvariable=self.prix_total, font=('Calibri light',11, 'italic'), state = 'readonly')
+      self.text_prix_total_produit = ttk.Entry(zone_produit, text=str(self.prix_unit.get() * self.qte_produit.get()), font=('Calibri light',11, 'italic')) #state = 'readonly'
       self.text_prix_total_produit.grid(row = 2, column = 3, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
       
-      a=self.prix_unit.get()
-      b=self.qte_produit.get()
-      print(a,' ',b)
+      
      
       
       
-      #self.text_prix_total_produit.insert(0,str(self.prix_unit.get()))
+      #self.text_prix_total.insert(0,str(self.prix_unit.get()))
       #self.prix_total.set(1000)
       
       
@@ -202,11 +204,11 @@ class MonRestaurant:
       
       
           #Bouton de recherche
-      self.button_rech = Button(zone_recherche, text = 'Recherche', height=1, font=('Calibri light',10, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_rech = Button(zone_recherche, text = 'Recherche', command=self.rech_Facture, height=1, font=('Calibri light',10, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_rech.grid(row=0, column=2, sticky = '', ipady = 1, pady = 1, ipadx = 8)
       
       #Zone facture et ses widgets
-      zone_facture = LabelFrame(zone, text=' FACTURE', font=('Calibri light',15, 'italic', 'bold', 'underline'), bg='white')
+      zone_facture = LabelFrame(zone, text=' FACTURE', font=('Calibri light',12, 'italic', 'bold', 'underline'), bg='white')
       zone_facture.place(x=880, y=150, width=450, height=480)
       
       scroll_y = Scrollbar(zone_facture, orient=VERTICAL)
@@ -239,35 +241,112 @@ class MonRestaurant:
       self.text_total_net.grid(row = 2, column = 1, sticky = 'w', padx = 10, pady = 1, ipadx = 8, ipady = 1)
       
           #Boutons de fonctions
-      self.button_add = Button(zone_fonctions, text = 'Ajouter à la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_add = Button(zone_fonctions, command = self.add, text = 'Ajouter à la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_add.grid(row=0, column=2, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
-      self.button_generate = Button(zone_fonctions, text = 'Générer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_generate = Button(zone_fonctions, text = 'Générer la facture', command = self.generate_Facture, height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_generate.grid(row=2, column=2, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
 
-      self.button_save = Button(zone_fonctions, text = 'Enregistrer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_save = Button(zone_fonctions, text = 'Enregistrer la facture', command=self.save, height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_save.grid(row=0, column=3, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
-      self.button_reinit = Button(zone_fonctions, text = 'Réinitialiser la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_reinit = Button(zone_fonctions, text = 'Réinitialiser la facture', command=self.reinitFacture, height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_reinit.grid(row=2, column=3, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
-      self.button_print = Button(zone_fonctions, text = 'Imprimer la facture', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_print = Button(zone_fonctions, text = 'Imprimer la facture', command=self.printFacture, height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_print.grid(row=0, column=4, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
       self.button_quit = Button(zone_fonctions, text = 'Quitter', height=1, font=('Calibri light',11, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
       self.button_quit.grid(row=2, column=4, sticky = '', rowspan = 1, ipadx = 5, ipady = 2, padx = 5, pady = 1)
       
+      self.format_facture()
       self.liste = []
       
-     
-      #self.prix_total.set(self.prix_unit.get() * self.qte_produit.get())
+    def rech_Facture(self):
+        trouver="non"
+        for fac in os.listdir("C:/Users/ok/DEPOTS_GIT/FACTURES_BarResto/"):
+            if fac.split("_")[1].split('.')[0]==self.rech_fac.get():
+                f1=open(f"C:/Users/ok/DEPOTS_GIT/FACTURES_BarResto/{fac}","r")
+                self.zone_text_facture.delete(1.0,END)
+                for d in f1:
+                    self.zone_text_facture.insert(END,d)
+                    f1.close
+                    trouver="oui"
+        if trouver == "non":
+            messagebox.showerror("Erreur","La facture n'existe pas")
+        
+      
+    def format_facture(self):
+      self.zone_text_facture.delete(1.0,END)
+      self.zone_text_facture.insert(END, "\tBIENVENU DANS MON BAR RESTAURANT")
+      self.zone_text_facture.insert(END, f"\nNuméro facture : {self.n_facture.get()}")
+      self.zone_text_facture.insert(END, f"\nNom du client : {self.nom_client.get()}")
+      self.zone_text_facture.insert(END, f"\nContacts du client : {self.contact_client.get()}")
+      self.zone_text_facture.insert(END, f"\nEmail du client : {self.email_client.get()}")
+      self.zone_text_facture.insert(END, "\n\n****************************************************************")
+      self.zone_text_facture.insert(END, "\nProduits\t\t\tQté\tPrix")
+      self.zone_text_facture.insert(END, "\n*****************************************************************")
+        
+    
 
 # Fontions de la zone fonctions
     def add(self):
         self.prix_total = self.prix_unit.get() * self.qte_produit.get()
         self.liste.append(self.prix_total)
+        if self.produit.get()=="":
+            messagebox.showerror("Erreur","Sélectionnez un produit!")
+        else:
+            self.zone_text_facture.insert(END,f"\n{self.produit.get()}\t\t\t{self.qte_produit.get()}\t{self.prix_total}")
+            self.total_brut.set(str("%.2f"%(sum(self.liste))))
+            self.taxe.set(str("%.2f"%(((sum(self.liste))-(self.prix_unit.get()))/100)))
+            self.total_net.set(str("%.2f"%((sum(self.liste))+((sum(self.liste))-(self.prix_unit.get()))/100)))
+     
+    def generate_Facture(self):
+        if self.produit.get()=="":
+            messagebox.showerror("Erreur","Sélectionnez un produit!")
+        else:
+            text = self.zone_text_facture.get(10.0, (10.0 + float(len(self.liste))))
+            self.format_facture()
+            text = self.zone_text_facture.insert(END, text)
+            self.zone_text_facture.insert(END, "\n*****************************************************************")
+            self.zone_text_facture.insert(END, f"\nTotal brut : \t\t\t\t{self.total_brut.get()}")
+            self.zone_text_facture.insert(END, f"\nTaxe : \t\t\t\t{self.taxe.get()}")
+            self.zone_text_facture.insert(END, f"\nTotal net : \t\t\t\t{self.total_net.get()}")
         
-      
+    def save(self):
+        op=messagebox.askyesno("Sauvegarder", "Voulez-vous sauvegarder la facture ?")
+        if op ==True:
+            self.infoFacture=self.zone_text_facture.get(1.0,END)
+            f1=open("C:/Users/ok/DEPOTS_GIT/FACTURES_BarResto/Facture_"+str(self.n_facture.get())+".text","w")
+            f1.write(self.infoFacture)
+            messagebox.showinfo("Sauvegarder", f"la facture {self.n_facture.get()} a été bien enregistrée")
+            f1.close()
+    
+    def printFacture(self):
+        fichier = tempfile.mktemp(".txt")
+        self.infoFacture=self.zone_text_facture.get(1.0,END)
+        open(fichier,"w").write(self.infoFacture)
+        os.startfile(fichier, "print")
+    
+    def reinitFacture(self):
+        self.zone_text_facture.delete(1.0,END)
+        self.n_facture.set(0)
+        self.nom_client.set("")
+        self.contact_client.set("")
+        self.email_client.set("")
+        x=random.randint(1000,9999)
+        self.n_facture.set(str(x))
+        self.rech_fac.set("")
+        self.produit.set("")
+        self.prix_unit.set(0)
+        self.qte_produit.set("")
+        self.total_brut.set(0)
+        self.taxe.set(0)
+        self.format_facture()
+        
+        
+        
+        
 
 #Fonction d'affection des sous-catégorie
     def affectSousCat(self, event = ''):
