@@ -200,19 +200,19 @@ class MonRestaurant:
       self.recherche_fac.grid(row = 0, column = 0 , sticky ='w', ipady = 1, pady = 1)
       
       self.text_rech_fac = ttk.Entry(zone_recherche, textvariable = self.rech_fac, font=('Calibri light',10, 'italic'))
-      self.text_rech_fac.grid(row = 0, column = 1, sticky = 'w', ipady = 1, pady = 1, ipadx = 8)
+      self.text_rech_fac.grid(row = 0, column = 1, sticky = 'w', ipadx = 8, ipady = 2, pady = 1)
       
       
           #Bouton de recherche
-      self.button_rech = Button(zone_recherche, text = 'Recherche', command=self.rech_Facture, height=1, font=('Calibri light',10, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
-      self.button_rech.grid(row=0, column=2, sticky = '', ipady = 1, pady = 1, ipadx = 8)
+      self.button_rech = Button(zone_recherche, text = 'RECHERCHE', command=self.rech_Facture, height=1, font=('Calibri light',12, 'italic', 'bold'),fg='black', bg='sky blue', cursor='hand2')
+      self.button_rech.grid(row=0, column=2, sticky = '', ipadx = 10, ipady = 2, pady = 1)
       
       #Zone facture et ses widgets
       zone_facture = LabelFrame(zone, text=' FACTURE', font=('Calibri light',12, 'italic', 'bold', 'underline'), bg='white')
       zone_facture.place(x=880, y=150, width=450, height=480)
       
       scroll_y = Scrollbar(zone_facture, orient=VERTICAL)
-      self.zone_text_facture = Text(zone_facture, yscrollcommand=scroll_y.set, font=('abadi',12, 'italic', 'bold'), bg='#D6EAF8', fg= 'black')
+      self.zone_text_facture = Text(zone_facture, yscrollcommand=scroll_y.set, font=('abadi',12, 'italic'), bg='#D6EAF8', fg= 'black')
       scroll_y.pack(fill=Y, side=LEFT)
       scroll_y.configure(command=self.zone_text_facture.yview)
       self.zone_text_facture.pack(fill=BOTH, expand=1)
@@ -283,9 +283,10 @@ class MonRestaurant:
       self.zone_text_facture.insert(END, f"\nNom du client : {self.nom_client.get()}")
       self.zone_text_facture.insert(END, f"\nContacts du client : {self.contact_client.get()}")
       self.zone_text_facture.insert(END, f"\nEmail du client : {self.email_client.get()}")
-      self.zone_text_facture.insert(END, "\n\n****************************************************************")
+      self.zone_text_facture.insert(END, "\n\n*********************************************************************")
       self.zone_text_facture.insert(END, "\nProduits\t\t\tQté\tPrix")
-      self.zone_text_facture.insert(END, "\n*****************************************************************")
+      self.zone_text_facture.insert(END, "\n*********************************************************************")
+      #self.zone_text_facture.insert(END, "\n")
         
     
 
@@ -308,7 +309,7 @@ class MonRestaurant:
             text = self.zone_text_facture.get(10.0, (10.0 + float(len(self.liste))))
             self.format_facture()
             text = self.zone_text_facture.insert(END, text)
-            self.zone_text_facture.insert(END, "\n*****************************************************************")
+            self.zone_text_facture.insert(END, "\n*********************************************************************")
             self.zone_text_facture.insert(END, f"\nTotal brut : \t\t\t\t{self.total_brut.get()}")
             self.zone_text_facture.insert(END, f"\nTaxe : \t\t\t\t{self.taxe.get()}")
             self.zone_text_facture.insert(END, f"\nTotal net : \t\t\t\t{self.total_net.get()}")
