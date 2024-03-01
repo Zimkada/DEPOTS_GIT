@@ -8,8 +8,7 @@ import streamlit as st
 import pandas as pd
 
 # Définir la couleur de fond de la page
-st.set_page_config(page_title="Titre de la page", page_icon="📊", layout="wide", initial_sidebar_state="expanded") 
-               #bgcolor="orange")
+st.set_page_config(page_title="Exécution programmes", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
 
 # Définir les taux prévus par mois
 taux_prevus_par_mois = {
