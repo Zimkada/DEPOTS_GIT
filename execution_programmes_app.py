@@ -7,6 +7,10 @@ Created on Tue Feb 27 10:34:42 2024
 import streamlit as st
 import pandas as pd
 
+# Définir la couleur de fond de la page
+st.set_page_config(page_title="Titre de la page", page_icon="📊", layout="wide", initial_sidebar_state="expanded") 
+               #bgcolor="orange")
+
 # Définir les taux prévus par mois
 taux_prevus_par_mois = {
     'Septembre': 10.00,
@@ -22,22 +26,22 @@ taux_prevus_par_mois = {
 
 def renseigner_taux_execution():
     st.header(':rainbow[EXÉCUTION DES PROGRAMMES SCOLAIRES]:books:', anchor='CENTER')
-    st.subheader('Application développée par : Chabi Zimé GOUNOU N\'GOBI, Planificateur de l\'éducation, DataScientist')
+    st.subheader(':orange[Application web développée par : Chabi Zimé GOUNOU N\'GOBI, Planificateur de l\'éducation, DataScientist]:computer:')
 
-    st.subheader('1. Informations générales')
+    st.subheader(':orange[1. Informations générales]')
 
     # Liste des communes
     communes = ['Banikoara', 'Gogounou', 'Kandi', 'Karimama', 'Malanville', 'Ségbana']
-    commune_selected = st.selectbox('Sélectionnez la commune :', communes, key="commune_select")
+    commune_selected = st.selectbox(':orange[Sélectionnez la commune :]', communes, key="commune_select")
 
     # Nom du collège
     list_colleges = choix_college(commune_selected)
-    college_name = st.selectbox('Sélectionnez votre collège :', list_colleges, key="college_select")
+    college_name = st.selectbox(':orange[Sélectionnez votre collège :]', list_colleges, key="college_select")
 
     # Cycle d'enseignement
-    cycle_enseignement = st.radio("Cycle d'enseignement :", ('1er cycle', '1er et 2nd cycles'))
+    cycle_enseignement = st.radio(":orange[Cycle d'enseignement :]", ('1er cycle', '1er et 2nd cycles'))
 
-    st.subheader('2. Taux d\'exécution')
+    st.subheader(':orange[2. Taux d\'exécution]')
 
     # Option de choix du mois
     mois_selected = st.selectbox("Sélectionnez le mois :", list(taux_prevus_par_mois.keys()), key="mois_select")
@@ -59,7 +63,7 @@ def renseigner_taux_execution():
 
     # Boucle sur les disciplines
     for discipline in disciplines:
-        st.subheader(discipline)
+        st.subheader(f':orange[{discipline}]:book:')
 
         # Diviser en 4 colonnes
         col1, col2, col3, col4 = st.columns(4)
@@ -71,19 +75,19 @@ def renseigner_taux_execution():
         # Boucle sur les promotions
         for promotion in promotions:
             with col1:
-                st.write("Taux prévu (%)")
+                st.write(":orange[Taux prévu (%)]")
                 st.write(taux_prevu)
 
             with col2:
-                taux_min[promotion] = st.number_input(f"Taux minimum (%) {promotion}", min_value=0.0, max_value=100.0, step=0.5, key=f"min_{discipline}_{promotion}")
+                taux_min[promotion] = st.number_input(f":orange[Taux minimum (%) {promotion}]", min_value=0.0, max_value=100.0, step=0.5, key=f"min_{discipline}_{promotion}")
 
             with col3:
-                taux_max[promotion] = st.number_input(f"Taux maximum (%) {promotion}", min_value=0.0, max_value=100.0, step=0.5, key=f"max_{discipline}_{promotion}")
+                taux_max[promotion] = st.number_input(f":orange[Taux maximum (%) {promotion}]", min_value=0.0, max_value=100.0, step=0.5, key=f"max_{discipline}_{promotion}")
 
             # Déterminer l'appréciation
             appreciation = "Bonne progression" if taux_min[promotion] >= taux_prevu else "Retard"
             with col4:
-                st.write("Appréciation")
+                st.write(":orange[Appréciation]")
                 if appreciation == "Bonne progression":
                     st.write(appreciation, ":heavy_check_mark:")
                 else:
@@ -118,20 +122,20 @@ def renseigner_taux_execution():
 
 def modifier_taux_execution():
     st.header(':rainbow[EXÉCUTION DES PROGRAMMES SCOLAIRES]:books:', anchor='CENTER')
-    st.header('Modifier mes taux d\'exécution')
+    st.header(':orange[Modifier mes taux d\'exécution]:hammer_and_wrench:')
 
     global_df = st.session_state.get('global_df', pd.DataFrame(columns=['Commune', 'Nom du collège', 'Discipline', 'Promotion', 'Taux prévu', 'Taux d\'exécution minimum (%)', 'Taux d\'exécution maximum (%)', 'Mois']))
 
     # Liste des communes
     communes = ['Banikoara', 'Gogounou', 'Kandi', 'Karimama', 'Malanville', 'Ségbana']
-    selected_commune = st.selectbox("Sélectionner une commune :", communes)
+    selected_commune = st.selectbox(":orange[Sélectionnez la commune :]", communes)
 
     # Liste des collèges en fonction de la commune sélectionnée
     colleges = choix_college(selected_commune)
-    selected_college = st.selectbox("Sélectionner un collège :", colleges)
+    selected_college = st.selectbox(":orange[Sélectionner un collège :]", colleges)
 
     # Option de choix du mois pour filtrer les données
-    mois_selected = st.selectbox("Sélectionnez le mois :", list(taux_prevus_par_mois.keys()), key="mois_select")
+    mois_selected = st.selectbox(":orange[Sélectionnez le mois :]", list(taux_prevus_par_mois.keys()), key="mois_select")
 
     # Filtrer les données en fonction de la commune, du collège sélectionné et du mois sélectionné
     filtered_data = global_df[(global_df['Commune'] == selected_commune) & (global_df['Nom du collège'] == selected_college) & (global_df['Mois'] == mois_selected)]
@@ -171,20 +175,20 @@ def modifier_taux_execution():
 
 def visualiser_taux_execution():
     st.header(':rainbow[EXÉCUTION DES PROGRAMMES SCOLAIRES]:books:', anchor='CENTER')
-    st.header('Visualiser mes taux d\'exécution')
+    st.header(':orange[Visualiser mes taux d\'exécution]:eye::mag:')
 
     global_df = st.session_state.get('global_df', pd.DataFrame(columns=['Commune', 'Nom du collège', 'Discipline', 'Promotion', 'Taux prévu', 'Taux minimum (%)', 'Taux maximum (%)', 'Mois']))
 
     # Liste des communes
     communes = ['Banikoara', 'Gogounou', 'Kandi', 'Karimama', 'Malanville', 'Ségbana']
-    selected_commune = st.selectbox("Sélectionner une commune :", communes)
+    selected_commune = st.selectbox(":orange[Sélectionnez la commune :]", communes)
 
     # Liste des collèges en fonction de la commune sélectionnée
     colleges = choix_college(selected_commune)
-    selected_college = st.selectbox("Sélectionner un collège :", colleges)
+    selected_college = st.selectbox(":orange[Sélectionner un collège :]", colleges)
 
     # Option de choix du mois pour filtrer les données
-    mois_selected = st.selectbox("Sélectionnez le mois :", list(taux_prevus_par_mois.keys()), key="mois_select")
+    mois_selected = st.selectbox(":orange[Sélectionnez le mois :]", list(taux_prevus_par_mois.keys()), key="mois_select")
 
     # Filtrer les données en fonction de la commune, du collège sélectionné et du mois sélectionné
     filtered_data = global_df[(global_df['Commune'] == selected_commune) & (global_df['Nom du collège'] == selected_college) & (global_df['Mois'] == mois_selected)]
@@ -216,6 +220,21 @@ def choix_college(commune_selected):
     return list_colleges
 
 def main():
+    # Ajouter une balise HTML <style> pour changer la couleur de fond
+    st.markdown(
+    """
+    <style>
+    body {
+        background-color: orange;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+    
+
+    
+    
     st.sidebar.title('MENUS')
     page = st.sidebar.radio("Aller à", ('Renseigner les taux d\'exécution', 'Modifier mes taux d\'exécution', 'Visualiser mes taux d\'exécution'))
 
